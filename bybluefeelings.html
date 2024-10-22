@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>byblue website</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css"/> 
+
+<head>
+  <body>
+
+    <div class="headertext">
+        <h1>find comfort in connection</h1>
+      </div>
+
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html">HOME</a>
+            <a href="bybluefeelings.html">INNER MONOLOGUE</a>
+            <a href="shop.html">SHOP</a>
+            <a href="about.html">ABOUT</a>
+        </nav>
+        <div class="logo">byblue</div>
+        <div class="cart2" onclick="openCart()">
+            <img src="Images/shoppingbag.png" alt="Shopping Cart">
+        </div>
+    </header>
+
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="ImagesandVideos/BackgroundVideo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="summary-container">
+        <div class="summary-text">
+            Welcome to Your Inner Monologue—a safe, anonymous space where you can share your personal experiences, thoughts, feelings, and advice under the pseudonym ‘byblue.’ Here, you can rant, rave, explore, and connect with others, fostering a profound sense of understanding and community. Embrace the freedom to express yourself and find comfort in knowing you’re not alone on your journey. Join us and be part of a compassionate network where every voice matters.
+        </div>
+    </div>
+    
+
+    <textarea id="postInput" rows="4" placeholder="Just Start Typing..."></textarea><br>
+    <button onclick="submitPost()">Post</button>
+
+    <div id="posts"></div>
+
+    <script>
+        // Load posts from localStorage when the page loads
+        document.addEventListener("DOMContentLoaded", loadPosts);
+
+        function loadPosts() {
+            const postsDiv = document.getElementById('posts');
+            const posts = JSON.parse(localStorage.getItem('posts')) || [];
+        // Reverse the array so the latest posts are shown first
+            posts.reverse().forEach(post => {
+            createPostElement(post, postsDiv);
+            });
+        }
+
+        function submitPost() {
+            const postContent = document.getElementById('postInput').value;
+            if (postContent.trim() === "") {
+                alert("Please write something before posting.");
+                return;
+            }
+
+            // Save the post in localStorage
+            const posts = JSON.parse(localStorage.getItem('posts')) || [];
+            posts.push(postContent);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            
+
+            // Display the new post
+            const postsDiv = document.getElementById('posts');
+            createPostElement(postContent, postsDiv);
+            document.getElementById('postInput').value = ""; // Clear the textarea
+            
+        }
+
+        function createPostElement(content, container) {
+            const postBlock = document.createElement('div');
+            postBlock.className = 'post';
+            postBlock.innerHTML = `<p>${content}</p><p class="author">byblue</p>`;
+            container.appendChild(postBlock);
+        }
+
+     
+    
+    </script>
+
+<video autoplay muted loop class="video-background">
+    <source src="ImagesandVideos/InnerMonologueVideo.mp4" type="video/mp4">
+</video>
+
+</body>
+
+
+</head>
+</html>

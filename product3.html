@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>byblue website</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css"/> 
+
+<head>
+  <body>
+
+    <div class="headertext">
+        <h1>find comfort in connection</h1>
+      </div>
+
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html">HOME</a>
+            <a href="bybluefeelings.html">INNER MONOLOGUE</a>
+            <a href="shop.html">SHOP</a>
+            <a href="about.html">ABOUT</a>
+        </nav>
+        <div class="logo">byblue</div>
+        <div class="cart2" onclick="openCart()">
+            <img src="Images/shoppingbag.png" alt="Shopping Cart">
+        </div>
+    </header> 
+
+    <main>
+        <div class="product-page">
+            <div class="product-images">
+                <img src="Images/15.png" alt="Classic byblue Tee">
+                <img src="Images/16.png" alt="Classic byblue Tee">
+            </div>
+            
+            <div class="product-container">
+                <h1>Classic Logo Tee</h1>
+                <p>$50.00</p>
+        
+                <div class="size-container">
+                    <h3>Size</h3>
+                    <button onclick="selectSize(this, 'XS')">XS</button>
+                    <button onclick="selectSize(this, 'S')">S</button>
+                    <button onclick="selectSize(this, 'M')">M</button>
+                    <button onclick="selectSize(this, 'L')">L</button>
+                    <button onclick="selectSize(this, 'XL')">XL</button>
+                </div>
+        
+                <div class="quantity-container">
+                    <h3>Quantity</h3>
+                    <button onclick="decreaseQuantity()">-</button>
+                    <input type="text" id="quantity" value="1" readonly>
+                    <button onclick="increaseQuantity()">+</button>
+                </div>
+        
+                <button class="add-to-cart" onclick="addToCart()">ADD TO BAG</button>
+            </div>
+        
+            <!-- Slide-out Cart -->
+            <div class="cart" id="cart">
+                <div class="cart-header">
+                    <h2>Your Bag</h2>
+                    <button class="x" onclick="closeCart()">X</button>
+                </div>
+                <div class="cart-items" id="cartItems"></div>
+                <div class="cart-total" id="cartTotal">Total: $0.00</div>
+                <button class="place-order">Place Order</button>
+            </div>
+        
+            <script>
+                let selectedSize = '';
+                let cart = [];
+        
+                function selectSize(element, size) {
+                    let buttons = document.querySelectorAll('.size-container button');
+                    buttons.forEach(button => button.classList.remove('selected'));
+                    element.classList.add('selected');
+                    selectedSize = size;
+                }
+        
+                function increaseQuantity() {
+                    let quantityInput = document.getElementById('quantity');
+                    let quantity = parseInt(quantityInput.value);
+                    quantityInput.value = quantity + 1;
+                }
+        
+                function decreaseQuantity() {
+                    let quantityInput = document.getElementById('quantity');
+                    let quantity = parseInt(quantityInput.value);
+                    if (quantity > 1) {
+                        quantityInput.value = quantity - 1;
+                    }
+                }
+        
+                function addToCart() {
+                    if (!selectedSize) {
+                        alert("Please select a size before adding to the cart!");
+                        return;
+                    }
+        
+                    let quantity = document.getElementById('quantity').value;
+                    let product = {
+                        name: "Classic Logo Tee",
+                        price: 50.00,
+                        size: selectedSize,
+                        quantity: parseInt(quantity),
+                    };
+        
+                    cart.push(product);
+                    updateCart();
+                    openCart();
+                }
+        
+                function updateCart() {
+                    let cartItems = document.getElementById('cartItems');
+                    let cartTotal = document.getElementById('cartTotal');
+                    cartItems.innerHTML = "";
+                    let total = 0;
+        
+                    cart.forEach((item, index) => {
+                        let itemTotal = item.price * item.quantity;
+                        total += itemTotal;
+        
+                        cartItems.innerHTML += `
+                            <div class="cart-item">
+                                <div class="cart-item-details">
+                                    <p>${item.name}</p>
+                                    <p>Size: ${item.size}</p>
+                                    <p>Quantity: ${item.quantity}</p>
+                                </div>
+                                <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
+                            </div>
+                        `;
+                    });
+        
+                    cartTotal.innerText = `Total: $${total.toFixed(2)}`;
+                }
+        
+                function openCart() {
+                    let cart = document.getElementById('cart');
+                    cart.classList.add('active');
+                }
+        
+                function closeCart() {
+                    let cart = document.getElementById('cart');
+                    cart.classList.remove('active');
+                }
+            </script>
+        
+
+
+</body>
+
+</head>
+</html>
